@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import PrimaryButton from "../../components/ui/primarybutton";
+import OrderModal from "./order";
 
 const CarListing = ({ setPage }) => {
   const cars = [
-    // Cars from landing page
+    // Your existing cars array remains the same
     {
       model: "KIA EV6",
       category: "electric",
@@ -15,6 +16,7 @@ const CarListing = ({ setPage }) => {
       power: "229 HP",
       charging: "18 mins (10-80%)"
     },
+    ,
     {
       model: "Tesla Model Y",
       category: "compact",
@@ -189,6 +191,8 @@ const CarListing = ({ setPage }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCar, setSelectedCar] = useState(null);
+  const [showOrderModal, setShowOrderModal] = useState(false);
   const carsPerPage = 6;
 
   // Filter cars based on category and search term
@@ -206,6 +210,12 @@ const CarListing = ({ setPage }) => {
   React.useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, selectedCategory]);
+
+  // Handle Order Now button click
+  const handleOrderNow = (car) => {
+    setSelectedCar(car);
+    setShowOrderModal(true);
+  };
 
   // Function to render car specifications
   const renderSpecs = (car) => {
@@ -262,7 +272,6 @@ const CarListing = ({ setPage }) => {
       <div className="fixed top-0 left-0 w-full z-50 bg-black/95 backdrop-blur-xl border-b border-emerald-500/30 shadow-2xl">
         <div className="max-w-7xl mx-auto px-3 sm:px-6">
           <div className="flex items-center justify-between py-3 sm:py-4">
-            {/* Back Button - Mobile Optimized */}
             <button 
               onClick={() => setPage("landing")}
               className="flex items-center gap-1 sm:gap-2 text-emerald-400 hover:text-emerald-300 transition-colors font-semibold group flex-shrink-0"
@@ -272,14 +281,12 @@ const CarListing = ({ setPage }) => {
               <span className="text-xs sm:text-sm xs:hidden">Back</span>
             </button>
             
-            {/* Title - Responsive */}
             <div className="text-center flex-1 mx-2">
               <h1 className="text-lg sm:text-xl font-black truncate">
                 CAR <span className="text-emerald-400">LISTINGS</span>
               </h1>
             </div>
             
-            {/* Spacer for balance */}
             <div className="w-12 sm:w-20 flex-shrink-0"></div>
           </div>
         </div>
@@ -287,9 +294,9 @@ const CarListing = ({ setPage }) => {
 
       {/* Main Content with Mobile Padding */}
       <div className="pt-16 sm:pt-20 pb-8 sm:pb-16 px-3 sm:px-6 max-w-7xl mx-auto">
-        {/* Category Filters - Mobile Scrollable */}
+        {/* Category Filters - Centered and Mobile Scrollable */}
         <div className="mb-6">
-          <div className="flex items justify-center overflow-x-auto pb-2 gap-1 sm:gap-2 scrollbar-hide -mx-3 px-3 sm:mx-0 sm:px-0">
+          <div className="flex justify-center overflow-x-auto pb-2 gap-1 sm:gap-2 scrollbar-hide -mx-3 px-3 sm:mx-0 sm:px-0">
             {categories.map(category => (
               <button
                 key={category.id}
@@ -330,7 +337,6 @@ const CarListing = ({ setPage }) => {
             )}
           </div>
           
-          {/* Search Results Count - Mobile Text Size */}
           <p className="text-gray-400 mt-2 text-xs sm:text-sm text-center">
             Showing {filteredCars.length} {filteredCars.length === 1 ? 'car' : 'cars'}
             {selectedCategory !== 'all' && ` in ${categories.find(cat => cat.id === selectedCategory)?.name}`}
@@ -343,9 +349,8 @@ const CarListing = ({ setPage }) => {
           {currentCars.map((car, i) => (
             <div
               key={i}
-              className="bg-gray-800/50 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-emerald-500/20 hover:border-emerald-500/40 transition-all duration-500 overflow-hidden group hover:transform hover:-translate-y-1 sm:hover:-translate-y-2 shadow-lg"
+              className="bg-gray-800/50 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-emerald-500/20 hover:border-green-300 hover:border-2 transition-all duration-500 overflow-hidden group hover:transform hover:-translate-y-1 sm:hover:-translate-y-2 shadow-lg"
             >
-              {/* Image Section - Mobile Height */}
               <div className="h-40 sm:h-48 lg:h-56 overflow-hidden relative bg-gradient-to-br from-gray-800 to-gray-900">
                 <img
                   src={car.image}
@@ -354,35 +359,33 @@ const CarListing = ({ setPage }) => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 
-                {/* Category Badge - Mobile Size */}
                 <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
                   {car.category.toUpperCase()}
                 </div>
                 
-                {/* Model Name Overlay - Mobile Text Size */}
                 <div className="absolute bottom-1 left-3 sm:bottom-3 sm:left-4">
                   <h3 className="text-lg sm:text-xl font-bold text-white drop-shadow-lg">{car.model}</h3>
                 </div>
               </div>
               
-              {/* Content Section - Mobile Padding */}
               <div className="p-2 sm:p-4">
-                {/* Description - Mobile Text Size */}
                 <p className="text-gray-300 text-xs sm:text-sm mb-2 sm:mb-4 leading-relaxed border-b border-gray-700/50 pb-3 sm:pb-4">
                   {car.description}
                 </p>
                 
-                {/* Specifications */}
                 {renderSpecs(car)}
                 
-                {/* Price and CTA - Mobile Layout */}
                 <div className="flex justify-between items-center pt-1 sm:pt-1 border-t border-gray-700/50">
                   <div>
                     <div className="text-lg sm:text-xl lg:text-2xl font-black text-emerald-400">{car.price}</div>
                     <div className="text-xs text-gray-400">Starting Price</div>
                   </div>
-                  <button className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm transition-all duration-300 transform hover:scale-105 shadow-lg">
-                    View Details
+                  {/* Changed from "View Details" to "Order Now" */}
+                  <button 
+                    onClick={() => handleOrderNow(car)}
+                    className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  >
+                    Order Now
                   </button>
                 </div>
               </div>
@@ -390,7 +393,7 @@ const CarListing = ({ setPage }) => {
           ))}
         </div>
 
-        {/* No Results Message - Mobile Padding */}
+        {/* No Results Message */}
         {currentCars.length === 0 && (
           <div className="text-center py-8 sm:py-12 bg-gray-800/50 rounded-xl sm:rounded-2xl border border-emerald-500/20 mx-2 sm:mx-0">
             <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🚗</div>
@@ -408,7 +411,7 @@ const CarListing = ({ setPage }) => {
           </div>
         )}
 
-        {/* Pagination - Mobile Optimized */}
+        {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex justify-center gap-1 sm:gap-2 flex-wrap">
             <button
@@ -426,7 +429,7 @@ const CarListing = ({ setPage }) => {
                 className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl font-semibold transition-all text-xs sm:text-sm ${
                   currentPage === index + 1
                     ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg'
-                    : 'border border-emerald-500/20 hover:border-emerald-500/40 text-gray-300 hover:bg-gray-700'
+                    : 'border border-emerald-500/20 hover:border-b-emerald-400 text-gray-300 hover:bg-gray-700'
                 }`}
               >
                 {index + 1}
@@ -443,7 +446,7 @@ const CarListing = ({ setPage }) => {
           </div>
         )}
 
-        {/* Bottom Back Button - Mobile Padding */}
+        {/* Bottom Back Button */}
         <div className="text-center mt-4 sm:mt-8">
           <PrimaryButton
             label="← Back to Home"
@@ -453,6 +456,14 @@ const CarListing = ({ setPage }) => {
           />
         </div>
       </div>
+
+      {/* Order Modal */}
+      {showOrderModal && selectedCar && (
+        <OrderModal 
+          car={selectedCar}
+          onClose={() => setShowOrderModal(false)}
+        />
+      )}
     </div>
   );
 };
