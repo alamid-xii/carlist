@@ -31,7 +31,7 @@ const NavBar = () => {
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div className="md:hidden flex flex-col items-center bg-black border-t border-emerald-500/20 space-y-4 pb-4">
+        <div className="md:hidden flex flex-col items-center bg-black border-t border-emerald-500/20 space-y-4 pb-2">
           <a href="#features" className="text-gray-300 hover:text-emerald-500 text-lg">Features</a>
           <a href="#models" className="text-gray-300 hover:text-emerald-500 text-lg">Models</a>
           <a href="#contact" className="text-gray-300 hover:text-emerald-500 text-lg">Contact</a>
