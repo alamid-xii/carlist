@@ -71,7 +71,7 @@ const NavBar = ({ setPage }) => {
   return (
     <>
       {/* Desktop Navigation - Enhanced Fixed */}
-      <nav className={`hidden md:block w-full fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      <nav className={`hidden md:block w-full fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-black border-b-2 border-emerald-500/30 ${
         isScrolled 
           ? 'bg-black/95 backdrop-blur-xl border-b border-emerald-500/30 shadow-2xl py-2' 
           : 'bg-transparent py-4'
@@ -142,8 +142,8 @@ const NavBar = ({ setPage }) => {
 </nav>
 
       {/* Spacers for fixed navigation */}
-      <div className="hidden md:block h-18"></div> {/* Desktop spacer - adjust based on your content */}
-      <div className="md:hidden h-0"></div> {/* Mobile spacer */}
+      {/*<div className="hidden md:block h-0 bg-transparent"></div>* Desktop spacer - adjust based on your content */}
+      <div className="md:hidden h-5"></div> {/* Mobile spacer */}
     </>
   );
 };

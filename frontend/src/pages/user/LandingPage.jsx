@@ -97,14 +97,18 @@ const LandingPage = ({ setPage }) => {
       <NavBar setPage={setPage} />
 
       {/* HERO SECTION - Adjusted padding for new navbar */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black overflow-hidden">
+      <section id="home" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black overflow-hidden ">
         {/* Background Elements */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute left-4 w-48 h-48 sm:w-72 sm:h-72 bg-emerald-600/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute right-4 w-56 h-56 sm:w-96 sm:h-96 bg-teal-600/15 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        </div>
 
         <div className="max-w-7xl mx-auto w-full">
           <div className="flex flex-col lg:flex-row items-center justify-between lg:gap-8">
             {/* Hero Content */}
             <div className="w-full lg:w-2/5 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 px-4 py-0 sm:px-6 sm:py-3 rounded-full mb-6 sm:mb-8">
+              <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 px-4 py-2 sm:px-6 sm:py-3 rounded-full mb-6 sm:mb-8">
                 <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
                 <span className="text-emerald-400 font-semibold text-xs sm:text-sm uppercase tracking-wider">
                   The Future is Electric
