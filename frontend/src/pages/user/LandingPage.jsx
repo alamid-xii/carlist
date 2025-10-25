@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import NavBar from "../../components/ui/navbar";
 import PrimaryButton from "../../components/ui/primarybutton";
 import Card from "../../components/ui/card";
+import Panel from "../../components/ui/panel"; // Import your Panel component
 
 const LandingPage = ({ setPage }) => {
+  const [showPanel, setShowPanel] = useState(false); // Add state for panel visibility
+
   const goToListing = () => {
     if (typeof setPage === "function") {
       setPage("car-listing");
@@ -15,6 +18,11 @@ const LandingPage = ({ setPage }) => {
   const handleExplore = (index) => {
     console.log("Explore clicked with index:", index);
     goToListing();
+  };
+
+  // Add function to handle test drive booking
+  const handleBookTestDrive = () => {
+    setShowPanel(true);
   };
 
   const scrollToSection = (sectionId) => {
@@ -153,7 +161,7 @@ const LandingPage = ({ setPage }) => {
                 />
                 <PrimaryButton 
                   label="Book Test Drive" 
-                  onClick={goToListing}
+                  onClick={handleBookTestDrive} // Changed to handleBookTestDrive
                   type="outline"
                   size="large"
                   className="w-full sm:w-auto"
@@ -314,7 +322,7 @@ const LandingPage = ({ setPage }) => {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <PrimaryButton 
               label="Book Your Test Drive →" 
-              onClick={goToListing}
+              onClick={handleBookTestDrive} // Changed to handleBookTestDrive
               size="large"
               className="w-full sm:w-auto"
             />
@@ -395,6 +403,11 @@ const LandingPage = ({ setPage }) => {
           </div>
         </div>
       </footer>
+
+      {/* Panel Component - Added at the end */}
+      {showPanel && (
+        <Panel onClose={() => setShowPanel(false)} />
+      )}
     </div>
   );
 };
