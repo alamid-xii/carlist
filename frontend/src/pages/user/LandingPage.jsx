@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import NavBar from "../../components/ui/NavBar";
-import PrimaryButton from "../../components/ui/PrimaryButton";
-import Card from "../../components/ui/Card";
+import NavBar from "../../components/ui/navbar";
+import PrimaryButton from "../../components/ui/primarybutton";
+import Card from "../../components/ui/card";
 
 const LandingPage = ({ setPage }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   const goToListing = () => {
     if (typeof setPage === "function") {
       setPage("car-listing");
@@ -19,17 +17,18 @@ const LandingPage = ({ setPage }) => {
     goToListing();
   };
 
-  const handleOrder = () => {
-    console.log("Order button clicked");
-    goToListing();
-  };
-
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
-    setIsMobileMenuOpen(false);
   };
 
   const features = [
@@ -94,104 +93,18 @@ const LandingPage = ({ setPage }) => {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-x-hidden">
-      {/* Enhanced Responsive Navbar */}
-      <div className="fixed top-0 left-0 w-full z-50 bg-black/95 backdrop-blur-xl border-b border-emerald-500/30 shadow-2xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex justify-between items-center py-3 sm:py-4">
-            {/* Logo */}
-            <div className="flex items-center">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center mr-3 shadow-lg">
-                <span className="text-white font-bold text-sm sm:text-lg">AL</span>
-              </div>
-              <span className="text-xl sm:text-2xl font-black bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                AutoLite
-              </span>
-            </div>
+      {/* Use the new NavBar component */}
+      <NavBar setPage={setPage} />
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-              <button 
-                onClick={() => scrollToSection('home')}
-                className="text-gray-300 hover:text-emerald-400 transition-all duration-300 font-semibold text-base lg:text-lg hover:scale-105"
-              >
-                Home
-              </button>
-              <button 
-                onClick={() => scrollToSection('features')}
-                className="text-gray-300 hover:text-emerald-400 transition-all duration-300 font-semibold text-base lg:text-lg hover:scale-105"
-              >
-                Features
-              </button>
-              <button 
-                onClick={() => scrollToSection('models')}
-                className="text-gray-300 hover:text-emerald-400 transition-all duration-300 font-semibold text-base lg:text-lg hover:scale-105"
-              >
-                Models
-              </button>
-              <PrimaryButton 
-                label="Get Started" 
-                onClick={goToListing}
-                className="ml-2 lg:ml-4"
-              />
-            </div>
-
-            {/* Mobile menu button */}
-            <button 
-              className="md:hidden text-gray-300 hover:text-emerald-400 text-2xl p-2"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? "✕" : "☰"}
-            </button>
-          </div>
-
-          {/* Mobile Menu */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden bg-gray-900/95 backdrop-blur-lg border-t border-emerald-500/20 py-4">
-              <div className="flex flex-col space-y-4 px-2">
-                <button 
-                  onClick={() => scrollToSection('home')}
-                  className="text-gray-300 hover:text-emerald-400 transition-colors font-semibold text-lg py-2 text-left"
-                >
-                  Home
-                </button>
-                <button 
-                  onClick={() => scrollToSection('features')}
-                  className="text-gray-300 hover:text-emerald-400 transition-colors font-semibold text-lg py-2 text-left"
-                >
-                  Features
-                </button>
-                <button 
-                  onClick={() => scrollToSection('models')}
-                  className="text-gray-300 hover:text-emerald-400 transition-colors font-semibold text-lg py-2 text-left"
-                >
-                  Models
-                </button>
-                <div className="pt-2">
-                  <PrimaryButton 
-                    label="Get Started" 
-                    onClick={goToListing}
-                    className="w-full"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* HERO SECTION - Fixed Image Styling */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black overflow-hidden pt-16 sm:pt-20 px-2 sm:px-4">
+      {/* HERO SECTION - Adjusted padding for new navbar */}
+      <section id="home" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black overflow-hidden">
         {/* Background Elements */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-10 left-4 w-48 h-48 sm:w-72 sm:h-72 bg-emerald-600/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-10 right-4 w-56 h-56 sm:w-96 sm:h-96 bg-teal-600/15 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        </div>
 
         <div className="max-w-7xl mx-auto w-full">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+          <div className="flex flex-col lg:flex-row items-center justify-between lg:gap-8">
             {/* Hero Content */}
             <div className="w-full lg:w-2/5 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 px-4 py-2 sm:px-6 sm:py-3 rounded-full mb-6 sm:mb-8">
+              <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 px-4 py-0 sm:px-6 sm:py-3 rounded-full mb-6 sm:mb-8">
                 <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
                 <span className="text-emerald-400 font-semibold text-xs sm:text-sm uppercase tracking-wider">
                   The Future is Electric
@@ -296,7 +209,6 @@ const LandingPage = ({ setPage }) => {
                 {...feature} 
                 onClick={() => handleExplore(index)}
                 className="hover:transform hover:-translate-y-2 transition-all duration-300"
-                size="medium"
               />
             ))}
           </div>
