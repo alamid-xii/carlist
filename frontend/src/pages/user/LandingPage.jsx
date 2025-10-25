@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import NavBar from "../../components/ui/navbar";
 import PrimaryButton from "../../components/ui/primarybutton";
 import Card from "../../components/ui/card";
-import Panel from "../../components/ui/panel"; // Import your Panel component
+import Panel from "../../components/ui/panel";
+import Modal from "../../components/ui/modal"; // Import the Modal component
 
 const LandingPage = ({ setPage }) => {
-  const [showPanel, setShowPanel] = useState(false); // Add state for panel visibility
+  const [showPanel, setShowPanel] = useState(false);
+  const [showModal, setShowModal] = useState(false); // State for modal visibility
 
   const goToListing = () => {
     if (typeof setPage === "function") {
@@ -23,6 +25,11 @@ const LandingPage = ({ setPage }) => {
   // Add function to handle test drive booking
   const handleBookTestDrive = () => {
     setShowPanel(true);
+  };
+
+  // Function to open models modal
+  const handleExploreModels = () => {
+    setShowModal(true);
   };
 
   const scrollToSection = (sectionId) => {
@@ -154,14 +161,14 @@ const LandingPage = ({ setPage }) => {
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <PrimaryButton 
-                  label="Explore Models →" 
-                  onClick={goToListing}
+                  label="Modal →" 
+                  onClick={handleExploreModels} // Changed to open modal
                   size="large"
                   className="w-full sm:w-auto"
                 />
                 <PrimaryButton 
-                  label="Book Test Drive" 
-                  onClick={handleBookTestDrive} // Changed to handleBookTestDrive
+                  label="Panel" 
+                  onClick={handleBookTestDrive}
                   type="outline"
                   size="large"
                   className="w-full sm:w-auto"
@@ -228,7 +235,7 @@ const LandingPage = ({ setPage }) => {
           <div className="text-center mt-12 sm:mt-16">
             <PrimaryButton 
               label="Explore All Features →" 
-              onClick={goToListing}
+              onClick={handleExploreModels} // Changed to open modal
               size="large"
             />
           </div>
@@ -290,7 +297,7 @@ const LandingPage = ({ setPage }) => {
 
                   <PrimaryButton 
                     label="View Details" 
-                    onClick={goToListing}
+                    onClick={handleExploreModels} // Changed to open modal
                     className="w-full"
                   />
                 </div>
@@ -301,7 +308,7 @@ const LandingPage = ({ setPage }) => {
           <div className="text-center">
             <PrimaryButton 
               label="View All Models →" 
-              onClick={goToListing}
+              onClick={handleExploreModels} // Changed to open modal
               size="large"
               type="outline"
             />
@@ -322,7 +329,7 @@ const LandingPage = ({ setPage }) => {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <PrimaryButton 
               label="Book Your Test Drive →" 
-              onClick={handleBookTestDrive} // Changed to handleBookTestDrive
+              onClick={handleBookTestDrive}
               size="large"
               className="w-full sm:w-auto"
             />
@@ -366,7 +373,7 @@ const LandingPage = ({ setPage }) => {
                         if (item === 'Home') scrollToSection('home');
                         else if (item === 'Features') scrollToSection('features');
                         else if (item === 'Models') scrollToSection('models');
-                        else goToListing();
+                        else handleBookTestDrive();
                       }}
                       className="text-gray-400 hover:text-emerald-400 transition-colors text-base sm:text-lg font-medium"
                     >
@@ -404,10 +411,63 @@ const LandingPage = ({ setPage }) => {
         </div>
       </footer>
 
-      {/* Panel Component - Added at the end */}
+      {/* Panel Component */}
       {showPanel && (
         <Panel onClose={() => setShowPanel(false)} />
       )}
+
+      {/* Modal Component */}
+      <Modal 
+        isOpen={showModal} 
+        onClose={() => setShowModal(false)}
+        title="Explore Our Models"
+      >
+        <div className="space-y-6">
+          <p className="text-gray-300 text-lg">
+            Discover our complete lineup of electric vehicles. Each model is designed to deliver exceptional performance, luxury, and sustainability.
+          </p>
+          
+          <div className="space-y-4">
+            <h3 className="text-white font-semibold text-xl">Available Models:</h3>
+            <ul className="space-y-3 text-gray-300">
+              <li className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg">
+                <span className="text-emerald-400">⚡</span>
+                <span>AutoLite Model S - Performance Sedan</span>
+              </li>
+              <li className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg">
+                <span className="text-emerald-400">⚡</span>
+                <span>AutoLite Model 3 - Compact Executive</span>
+              </li>
+              <li className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg">
+                <span className="text-emerald-400">⚡</span>
+                <span>AutoLite Model X - SUV</span>
+              </li>
+              <li className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg">
+                <span className="text-emerald-400">⚡</span>
+                <span>AutoLite Model Y - Crossover</span>
+              </li>
+              <li className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg">
+                <span className="text-emerald-400">⚡</span>
+                <span>AutoLite Roadster - Sports Car</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="flex gap-3 pt-4">
+            <PrimaryButton 
+              label="View Full Catalog" 
+              onClick={goToListing}
+              className="flex-1"
+            />
+            <button
+              onClick={() => setShowModal(false)}
+              className="px-6 py-3 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-800 transition-colors"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
